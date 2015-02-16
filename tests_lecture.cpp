@@ -37,6 +37,12 @@ int main()
     struct donnees tableaux;
     tableaux = lecture("simple_geo.mesh","simple_geo.back.mesh","simple_geo.dist_wall.sol"); //test de la lecture globale avec renvoi d'une structure -> ok
     cout<<tableaux.tailles_bk[2]<<endl;
+    
+    create_text(tableaux, "test_ecriture.mesh");
+
+    ajouter_individu(15,15,tableaux);
+
+    create_text(tableaux, "test_ecriture2.mesh");
 
     return 0;
 }
