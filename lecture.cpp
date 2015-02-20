@@ -158,4 +158,5 @@ struct donnees lecture(const char* mesh, const char* back_mesh, const char* sol)
     delete [] Sommets_bk;
     delete [] Aretes_bk;
     delete [] Triangles_bk;
+    delete [] Triangles_fr;
 }
