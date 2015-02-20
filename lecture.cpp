@@ -5,7 +5,7 @@ using namespace std;
 int* lecture_mesh_tailles(const char* file)
 {
     ifstream fichier(file, ios::in); //ouverture du fichier en mode lecture
-    int* tailles = new int[2];
+    int* tailles = new int[3];
 
     if(fichier) //s'il y a bien ouverture
     {
@@ -20,35 +20,7 @@ int* lecture_mesh_tailles(const char* file)
 
         fichier >> tailles[1];
         //cout<<tailles[1]<<endl; //on l'affiche pour tester
-
-        return(tailles);
-        delete [] tailles;
-
-        fichier.close(); //on ferme le fichier
-    }
-    else //s'il y a eu un problÃ¨me Ã  l'ouverture du fichier
-    cerr<< "Impossible d'ouvrir le fichier"<< endl; //message d'erreur
-}
-
-int* lecture_back_mesh_tailles(const char* file)
-{
-    ifstream fichier(file, ios::in); //ouverture du fichier en mode lecture
-    int* tailles = new int[3];
-
-    if(fichier) //s'il y a bien ouverture
-    {
-        string ligne; //chaine de caractere pour stocker les lignes
-
-        while(ligne!="Vertices") {getline(fichier,ligne);} //on cherche le mot-clÃ© Vertices
-
-        fichier >> tailles[0]; //on rÃ©cupÃ¨re en lecture le nombre de sommets
-        //cout<<tailles[0]<<endl; //on l'affiche pour tester
-
-        while(ligne!="Edges") {getline(fichier,ligne);} //on cherche le mot-clÃ© Edges
-
-        fichier >> tailles[1]; //on rÃ©cupÃ¨re le nombre d'aretes
-        //cout<<tailles[1]<<endl; //on l'affiche pour tester
-
+        
         while(ligne!="Triangles") {getline(fichier,ligne);} //on cherche le mot-clÃ© Triangles
 
         fichier >> tailles[2]; //on rÃ©cupÃ¨re le nombre de triangles
@@ -59,11 +31,11 @@ int* lecture_back_mesh_tailles(const char* file)
 
         fichier.close(); //on ferme le fichier
     }
-    else //s'il y a eu un problÃ¨me Ã  l'ouverture du fichier
+    else //s'il y a eu un probleme a  l'ouverture du fichier
     cerr<< "Impossible d'ouvrir le fichier"<< endl; //message d'erreur
 }
 
-void lecture_mesh(const char* file, sommet* Vertices, arete* Edges)
+void lecture_mesh(const char* file, sommet* Vertices, arete* Edges, triangle* Triangles)
 {
     ifstream fichier(file, ios::in); //ouverture du fichier en mode lecture
 
@@ -71,10 +43,10 @@ void lecture_mesh(const char* file, sommet* Vertices, arete* Edges)
     {
         string ligne; //chaine de caractere pour stocker les lignes
 
-        while(ligne!="Vertices"){getline(fichier,ligne);} //on cherche le mot-clÃ© Vertices
+        while(ligne!="Vertices"){getline(fichier,ligne);} //on cherche le mot-cle Vertices
 
         int taille_vertices; //on initialise la taille du tableau des points
-        fichier >> taille_vertices; //on rÃ©cupÃ¨re en lecture la taille du tableau
+        fichier >> taille_vertices; //on recupere en lecture la taille du tableau
         //cout<<taille_vertices<<endl; //on l'affiche pour tester
         float x, y;
         int ref;
@@ -97,49 +69,7 @@ void lecture_mesh(const char* file, sommet* Vertices, arete* Edges)
             //cout<<val1<<" "<<val2<<" "<<refere<<endl; //affichage pour test
             Edges[i] = arete(val1,val2,refere);
         }
-
-        fichier.close(); //on ferme le fichier
-    }
-    else //s'il y a eu un problÃ¨me Ã  l'ouverture du fichier
-    cerr<< "Impossible d'ouvrir le fichier"<< endl; //message d'erreur
-}
-
-void lecture_back_mesh(const char* file, sommet* Vertices, arete* Edges, triangle* Triangles)
-{
-    ifstream fichier(file, ios::in); //ouverture du fichier en mode lecture
-
-    if(fichier) //s'il y a bien ouverture
-    {
-        string ligne; //chaine de caractere pour stocker les lignes
-
-        while(ligne!="Vertices"){getline(fichier,ligne);} //on cherche le mot-clÃ© Vertices
-
-        int taille_vertices; //on initialise la taille du tableau des points
-        fichier >> taille_vertices; //on rÃ©cupÃ¨re en lecture la taille du tableau
-        //cout<<taille_vertices<<endl; //on l'affiche pour tester
-        float x, y;
-        int ref;
-        for(int i=0;i<taille_vertices;i++)
-        {
-            fichier >> x >> y >> ref; //on rÃ©cupÃ¨re les valeurs dans le fichier
-            //cout<<x<<" "<<y<<" "<<ref<<endl; //affichage pour test
-            Vertices[i] = sommet(x,y,ref); //on construit les sommets avec valeurs
-        }
-
-        while(ligne!="Edges"){getline(fichier,ligne);}
-
-        int taille_edge;
-        fichier >> taille_edge;
-        //cout<<taille_edge<<endl; //on l'affiche pour tester
-        int val1, val2, refere;
-        for(int i=0;i<taille_edge;i++)
-        {
-            fichier >> val1 >> val2 >> refere;
-            //cout<<val1<<" "<<val2<<" "<<refere<<endl; //affichage pour test
-            Edges[i] = arete(val1,val2,refere);
-        }
-
-
+        
         while(ligne!="Triangles"){getline(fichier,ligne);}
 
         int taille_tri;
@@ -191,21 +121,20 @@ float** lecture_sol(const char* file)
     cerr<< "Impossible d'ouvrir le fichier"<< endl; //message d'erreur
 }
 
-
-
 struct donnees lecture(const char* mesh, const char* back_mesh, const char* sol)
 {
     int* tailles_fr;
     tailles_fr = lecture_mesh_tailles(mesh);
     sommet* Sommets_fr = new sommet[tailles_fr[0]];
     arete* Aretes_fr = new arete[tailles_fr[1]];
-    lecture_mesh(mesh, Sommets_fr, Aretes_fr);
+    triangle* Triangles_fr = new triangle[tailles_fr[2]];
+    lecture_mesh(mesh, Sommets_fr, Aretes_fr, Triangles_fr);
 
-    int* tailles_back = lecture_back_mesh_tailles(back_mesh);
+    int* tailles_back = lecture_mesh_tailles(back_mesh);
     sommet* Sommets_bk = new sommet[tailles_back[0]];
     arete* Aretes_bk = new arete[tailles_back[1]];
     triangle* Triangles_bk = new triangle[tailles_back[2]];
-    lecture_back_mesh(back_mesh, Sommets_bk, Aretes_bk, Triangles_bk);
+    lecture_mesh(back_mesh, Sommets_bk, Aretes_bk, Triangles_bk);
 
     float** Sol = lecture_sol(sol);
 
@@ -213,6 +142,7 @@ struct donnees lecture(const char* mesh, const char* back_mesh, const char* sol)
     tableaux.tailles_fr = tailles_fr;
     tableaux.Sommets_fr = Sommets_fr;
     tableaux.Aretes_fr = Aretes_fr;
+    tableaux.Triangles_fr = Triangles_fr;
 
     tableaux.tailles_bk = tailles_back;
     tableaux.Sommets_bk = Sommets_bk;
