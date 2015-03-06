@@ -91,7 +91,7 @@ void individual::objectif(float x, float y){
   obj_y=y;
 }
 
-void individual::change(float x, float y, float vx, float vy, int reff){
+void individual::changer(float x, float y, float vx, float vy, int reff){
   xx=x;
   yy=y;
   v_x=vx;
