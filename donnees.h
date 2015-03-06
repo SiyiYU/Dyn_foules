@@ -41,5 +41,5 @@ class donnees
   void ajouter_arete(arete);
   void ajouter_triangle(triangle);
   void ajouter_individu(float, float, struct donnees &,float, float, float, float);
-}
+};
 #endif // DONNEES_H_INCLUDED#include "sommet2.h"
