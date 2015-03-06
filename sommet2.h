@@ -20,7 +20,7 @@ class sommet // means the dynamic mesh
   float x()const{return xx;};
   float y()const{return yy;};
   int ref()const{return reff;};
-  void changer(float,float,int);
+  virtual void changer(float,float,int);
   virtual void masse(float);
   virtual void g(float);
   virtual void objectif(float, float);
@@ -67,7 +67,7 @@ class individual:public sommet
   void masse(float);
   void g(float);
   void objectif(float, float);
-  void change(float, float, float, float, int);//position vitesse ref
+  void changer(float, float, float, float, int);//position vitesse ref
 };
 #endif// MAILLAGE_DYN_H_INCLUDED
 #ifndef SOMMET2_H_INCLUDED
