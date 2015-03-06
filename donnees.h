@@ -1,7 +1,5 @@
 #ifndef DONNEES_H_INCLUDED
 #define DONNEES_H_INCLUDED
-#ifndef DONNEES_H_INCLUDED
-#define DONNEES_H_INCLUDED
 #include "sommet2.h"
 #include "arete.h"
 #include "triangle.h"
