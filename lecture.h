@@ -5,29 +5,21 @@
 #include <fstream>
 #include "arete.h"
 #include "triangle.h"
-#include "sommet2.h"
+#include "../sommet.h"
+#include "donnees.h"
+#include <map>
 
 using namespace std;
-
-struct donnees
-{
-    int* tailles_fr;
-    sommet* Sommets_fr;
-    arete* Aretes_fr;
-    triangle* Triangles_fr;
-
-    int* tailles_bk;
-    sommet* Sommets_bk;
-    arete* Aretes_bk;
-    triangle* Triangles_bk;
-
-    float** Sol;
-};
 
 int* lecture_mesh_tailles(const char* file); //renvoie un tableau avec le nombre de sommets, le nombre d'arÃªtes
 void lecture_mesh(const char* file, sommet* Vertices, arete* Edges, triangle* Triangles); //permet d'avoir le tableau des sommets et celui des aretes pour le maillage de devant
 float** lecture_sol(const char* file); //renvoie le tableau avec les distances au sol
 
-struct donnees lecture(const char* mesh, const char* back_mesh, const char* sol);
+//void inner_aretes(donnees Donnees,arete *A, triangle*T, int T_arete, int T_tri);
+map<arete,triangle*> construit_map(arete* A,triangle*T, const int T_arete, const int T_tri);
+map<arete,int*> construit2_map(arete* A,triangle*T, const int T_arete, const int T_tri);
+map<int,int*> construit3_map(arete* A,triangle*T, const int T_arete, const int T_tri);
+//construit le map pour les triangle voisins
+
 
 #endif // LECTURE_H_INCLUDED
